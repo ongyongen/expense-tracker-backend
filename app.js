@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
-const locationRouter = require('./controllers/location')
+const recordRouter = require('./controllers/record')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
@@ -24,7 +24,7 @@ app.use(express.static('build'))
 app.use(express.json())
 
 app.use(middleware.requestLogger)
-app.use('/api/locations', locationRouter)
+app.use('/api/record', recordRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
