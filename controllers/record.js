@@ -4,17 +4,37 @@ const Record = require('../models/record')
 // GET : get all records available
 recordRouter.get('/', (request, response) => {
     Record.find({})
-    .then(locations => {
-        response.json(locations)
+    .then(record => {
+        response.json(record)
     })
 })
 
 // GET : get record by ID
 recordRouter.get('/:id', (request, response, next) => {
     Record.findById(request.params.id)
-    .then(location => {
-        if (location) {
-            response.json(location)
+    .then(record => {
+        if (record) {
+            response.json(record)
+        } else {
+            response.status(404).end()
+        }
+    })
+    .catch(error => next(error))
+})
+
+// GET : get record between start date & end date YYYY-MM-DD
+recordRouter.get('/find_by_date/:startDate&:endDate', (request, response, next) => {
+    startDate = new Date(request.params.startDate)
+    endDate = new Date(request.params.endDate)
+    Record.find(
+        {"date" : {
+            $gte : startDate,
+            $lte : endDate
+        }}
+    )
+    .then(record => {
+        if (record) {
+            response.json(record)
         } else {
             response.status(404).end()
         }
@@ -29,6 +49,7 @@ recordRouter.post('/', (request, response, next) => {
     const record = new Record({
         name: body.name,
         price: body.price,
+        category_id: body.category_id,
         date: new Date()
     })
 
@@ -55,6 +76,7 @@ recordRouter.put('/:id', (request, response, next) => {
     const record = {
         name: body.name,
         price: body.price,
+        category_id: body.category_id,
         date: new Date()
     }
 

@@ -9,6 +9,10 @@ const recordSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    category_id: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true
@@ -17,7 +21,7 @@ const recordSchema = new mongoose.Schema({
 
 recordSchema.set('toJSON', {
     transform: (document, returnedObject) => {
-        delete returnedObject._id
+        // delete returnedObject._id
         delete returnedObject.__v
     }
 })
