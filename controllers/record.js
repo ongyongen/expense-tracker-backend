@@ -24,8 +24,8 @@ recordRouter.get('/:id', (request, response, next) => {
 
 // GET : get record between start date & end date YYYY-MM-DD
 recordRouter.get('/find_by_date/:startDate&:endDate', (request, response, next) => {
-    startDate = new Date(request.params.startDate)
-    endDate = new Date(request.params.endDate)
+    startDate = new Date(`${request.params.startDate}T00:00:00Z`)
+    endDate = new Date(`${request.params.endDate}T23:59:59Z`)
     Record.find(
         {"date" : {
             $gte : startDate,
