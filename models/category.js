@@ -4,7 +4,8 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-    }
+    },
+    // records: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Record' }]
 })
 
 categorySchema.set('toJSON', {
