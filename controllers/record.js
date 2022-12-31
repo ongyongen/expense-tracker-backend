@@ -1,9 +1,11 @@
 const recordRouter = require('express').Router()
 const Record = require('../models/record')
+const Category = require('../models/category')
 
 // GET : get all records available
 recordRouter.get('/', (request, response) => {
     Record.find({})
+    .populate('category')
     .then(record => {
         response.json(record)
     })
@@ -12,6 +14,7 @@ recordRouter.get('/', (request, response) => {
 // GET : get record by ID
 recordRouter.get('/:id', (request, response, next) => {
     Record.findById(request.params.id)
+    .populate('category')
     .then(record => {
         if (record) {
             response.json(record)
@@ -49,11 +52,17 @@ recordRouter.post('/', (request, response, next) => {
     const record = new Record({
         name: body.name,
         price: body.price,
-        category_id: body.category_id,
+        category: body.category,
         date: new Date()
     })
 
+    // Category.updateOne(
+    //     {"_id": body.category_id},
+    //     {$push: {"records": record}}
+    // ).then(resp => console.log(response))
+
     record.save()
+
     .then(savedRecord => {
         response.json(savedRecord)
     })
