@@ -6,7 +6,6 @@ const Record = require('../models/record')
 // GET : get all categories available
 categoryRouter.get('/', (request, response) => {
     Category.find({})
-    //.populate('records')
     .then(cat => {
         response.json(cat)
     })
@@ -15,7 +14,6 @@ categoryRouter.get('/', (request, response) => {
 // GET : get category by ID
 categoryRouter.get('/:id', (request, response, next) => {
     Category.findById(request.params.id)
-    //.populate('records')
     .then(category => {
         if (category) {
             response.json(category)
