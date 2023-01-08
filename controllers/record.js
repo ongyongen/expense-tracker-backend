@@ -35,6 +35,7 @@ recordRouter.get('/find_by_date/:startDate&:endDate', (request, response, next) 
             $lte : endDate
         }}
     )
+    .populate('category')
     .then(record => {
         if (record) {
             response.json(record)
@@ -48,18 +49,13 @@ recordRouter.get('/find_by_date/:startDate&:endDate', (request, response, next) 
 // POST : create a new record
 recordRouter.post('/', (request, response, next) => {
     const body = request.body
-
+    
     const record = new Record({
         name: body.name,
         price: body.price,
         category: body.category,
         date: new Date()
     })
-
-    // Category.updateOne(
-    //     {"_id": body.category_id},
-    //     {$push: {"records": record}}
-    // ).then(resp => console.log(response))
 
     record.save()
 
